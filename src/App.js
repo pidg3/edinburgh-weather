@@ -4,7 +4,10 @@ import './Reset.css';
 import TodayWeather from './TodayWeather';
 import SubsequentDayWeather from './SubsequentDayWeather';
 import { convertForecastData } from './Utils';
-require('dotenv').config();
+
+// This would not be hard coded in a production (or normally even a dev) app
+// Making an exception here as it's a free API and I am running out of time and having build issues with dotenv
+const APP_ID = 'a9e87d2913472bf0762013886362a0e8';
 
 class App extends Component {
   constructor(props) {
@@ -17,14 +20,10 @@ class App extends Component {
   componentDidMount() {
     Promise.all([
       fetch(
-        `http://api.openweathermap.org/data/2.5/weather?q=Edinburgh,UK&mode=json&units=metric&APPID=${
-          process.env.REACT_APP_WEATHER_APP_ID
-        }`
+        `http://api.openweathermap.org/data/2.5/weather?q=Edinburgh,UK&mode=json&units=metric&APPID=${APP_ID}`
       ).then(response => response.json()),
       fetch(
-        `http://api.openweathermap.org/data/2.5/forecast?q=Edinburgh,UK&units=metric&mode=json&APPID=${
-          process.env.REACT_APP_WEATHER_APP_ID
-        }`
+        `http://api.openweathermap.org/data/2.5/forecast?q=Edinburgh,UK&units=metric&mode=json&APPID=${APP_ID}`
       ).then(response => response.json())
     ]).then(combinedResponses =>
       this.setState({
