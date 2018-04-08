@@ -3,6 +3,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+  background-size: cover;
 }
 
 .today-weather-container {
@@ -29,6 +30,7 @@ body {
 @media (min-width: 992px) {
   .subsequent-day-weather-container {
     flex-direction: column;
+    border-right: 1px solid lightgray;
   }
   .subsequent-days-bar {
     margin: 20px 10vw;
@@ -38,6 +40,9 @@ body {
 
 /* For small screens */
 @media (max-width: 991px) {
+  .subsequent-day-weather-container {
+    border-bottom: 1px solid lightgray;
+  }
   .subsequent-days-bar {
     margin: 20px 10vw;
   }
@@ -48,7 +53,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid lightgray;
   min-height: 200px;
   padding: 10px;
 }
@@ -66,11 +70,6 @@ body {
 
 .add-text-margin {
   margin: 10px;
-}
-
-.background-image {
-  display: absolute;
-  position: 0 0;
 }
 
 h1 {
