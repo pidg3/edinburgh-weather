@@ -42,6 +42,7 @@ class App extends Component {
               maxTemperature={day.maxTemperature}
               description={day.description}
               icon={day.icon}
+              dateString={day.dateString}
             />
           ))}
         </div>

@@ -2,14 +2,18 @@
   min-width: 80vw;
   min-height: 300px;
   margin: 10vh 10vw;
-  border: 1px solid red;
+  border: 1px solid lightgray;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 /* For large screens */
 @media (min-width: 992px) {
+  .subsequent-day-weather-container {
+    flex-direction: column;
+  }
   .subsequent-days-bar {
     margin: 20px 10vw;
     display: flex;
@@ -28,6 +32,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid blue;
+  border: 1px solid lightgray;
   min-height: 200px;
+  padding: 10px;
+}
+
+/* For very small screens */
+@media (max-width: 650px) {
+  .subsequent-day-weather-container {
+    flex-direction: column;
+  }
+}
+
+.add-text-margin {
+  margin: 10px;
+}
+
+h1 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  line-height: 51px;
+  font-size: 30px;
+  margin: 0 0 23px 0;
+  color: #5c5c4e;
+  text-align: center;
+}
+h2 {
+  font-family: 'Droid Serif', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 20px;
+  line-height: 23px;
+  margin: 0 0 23px 0;
+  text-align: center;
+}
+p {
+  font-family: 'Droid Serif', serif;
+  font-size: 15px;
+  line-height: 23px;
+  margin: 0 0 23px 0;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.weather-icon {
+  width: 20%;
+  max-width: 100px;
 }
