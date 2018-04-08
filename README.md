@@ -21,7 +21,7 @@
 
 In rough priority order:
 
-* We have hard coded APP_ID. This is a red flag, even though in this case it is a free API and will taken down after a few days. Given more time I would probably spin up a little AWS Lambda/API Gateway backend to obscure the API key; I would then have the front end talk to this instead of the openweathermap API directly. We would also need to remove the key from the Github repo, including old commits.
+* We have hard coded APP_ID credential for openweathermap. This is a red flag, even though in this case it is a free API and will taken down after a few days. Given more time I would probably spin up a little AWS Lambda/API Gateway backend to obscure the API key; I would then have the front end talk to this instead of the openweathermap API directly. We would also need to remove the key from the Github repo, including old commits.
 * There is a nasty hack for handling the UK time zone in Utils.js. This needs replacing with something more sophisticated.
 * Test coverage is low: more tests needed for components/rendering.
 * CSS classes could use tidying up.
@@ -33,6 +33,7 @@ In rough priority order:
 Aside from technical debt listed above:
 
 * Are my UI assumptions correct? Do people want to see summarised results for each day, or each three-hourly forecast?
+* Nicer styling. It's not my finest work at the moment but does the job.
 * Do something more sophisticated to get the 'icon' for a given day. Currently it just uses whatever is at 12 noon. Ideally we would take a weighted average of weather conditions throughout the day, prioritising those closer to midday.
 * Because of the above, if no forecast is available at 12 noon for the fifth day, only 4 days are shown. The UI therefore fluctuates between 4 and 5 days shown, depending on the time of day! This is a little odd.
 * Add wind speed.
