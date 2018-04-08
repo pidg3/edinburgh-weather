@@ -33,6 +33,7 @@ In rough priority order:
 Aside from technical debt listed above:
 
 * Are my UI assumptions correct? Do people want to see summarised results for each day, or each three-hourly forecast?
+* Better loading screen - currently user sometimes sees a basic white page for a split second.
 * Nicer styling. It's not my finest work at the moment but does the job.
 * Do something more sophisticated to get the 'icon' for a given day. Currently it just uses whatever is at 12 noon. Ideally we would take a weighted average of weather conditions throughout the day, prioritising those closer to midday.
 * Because of the above, if no forecast is available at 12 noon for the fifth day, only 4 days are shown. The UI therefore fluctuates between 4 and 5 days shown, depending on the time of day! This is a little odd.
