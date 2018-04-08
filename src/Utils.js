@@ -1,8 +1,3 @@
-/*
-  Calculates number of calendar days betwen two dates
-  Only counts full days ahead
-*/
-
 const DAYS_OF_WEEK = [
   'Sunday',
   'Monday',
@@ -28,6 +23,10 @@ const MONTHS = [
   'December'
 ];
 
+/*
+  Takes a JS date object and prints it in following format:
+  Sunday 8 April
+*/
 function prettifyDate(date) {
   return (
     DAYS_OF_WEEK[date.getDay()] +
@@ -38,6 +37,10 @@ function prettifyDate(date) {
   );
 }
 
+/*
+  Calculates number of calendar days betwen two dates
+  Only counts full days ahead
+*/
 export function numberOfDaysBetweenDates(date1, date2) {
   // Set time to 00:00 for both dates
   date1.setHours(0);
@@ -53,7 +56,7 @@ export function numberOfDaysBetweenDates(date1, date2) {
 }
 
 /*
-  Get data into separate arrays for each day, [0] tomorrow, [1] day after etc
+  Gets data into separate arrays for each day, [0] tomorrow, [1] day after etc
 */
 export function separateForecastIntoDays(forecastJson) {
   return forecastJson.list.reduce((accumulator, currentValue) => {
@@ -80,6 +83,7 @@ export function separateForecastIntoDays(forecastJson) {
   Takes a weather forecast json in openweathermap default format
   Returns an array with 5 items, for each of subsequent days
   Each array item has:
+  - dateString
   - minTemperature
   - maxTemperature
   - description
@@ -87,42 +91,50 @@ export function separateForecastIntoDays(forecastJson) {
 */
 export function convertForecastData(forecastJson) {
   const forecastByDay = separateForecastIntoDays(forecastJson);
-  return forecastByDay.map(day => {
-    let result = {};
-    // 1) Add description, icon and date just based on 12 noon forecast
-    const twelveNoonForecast = day.find(individualForecast => {
-      const forecastDate = new Date(individualForecast.dt * 1000);
-      // TODO: sort out this horrible hack (using 13), handle time zones properly
-      if (forecastDate.getHours() === 13) return true;
-      else return false;
-    });
-    const prettyPrintedDate = new Date(
-      twelveNoonForecast.dt * 1000
-    ).toLocaleDateString('en-GB');
-    result.dateString = prettifyDate(new Date(twelveNoonForecast.dt * 1000));
-    result.description = twelveNoonForecast.weather[0].description;
-    result.icon = twelveNoonForecast.weather[0].icon;
-    // 2) Work out rounded min and max temperatures by reducing over all forecasts for the day
-    const minMaxTemperatures = day.reduce(
-      (accumulator, currentValue) => {
-        let updatedAccumulator = accumulator;
-        updatedAccumulator.minTemperature = Math.min(
-          accumulator.minTemperature,
-          Math.round(currentValue.main.temp)
+  return (
+    forecastByDay
+      .map(day => {
+        let result = {};
+        // 1) Add description, icon and date just based on 12 noon forecast
+        const twelveNoonForecast = day.find(individualForecast => {
+          const forecastDate = new Date(individualForecast.dt * 1000);
+          // TODO: sort out this horrible hack (using 13), handle time zones properly
+          if (forecastDate.getHours() === 13) return true;
+          else return false;
+        });
+        // If we don't have a 12 noon forecast, don't use the day
+        if (twelveNoonForecast === undefined) {
+          return null;
+        }
+        result.dateString = prettifyDate(
+          new Date(twelveNoonForecast.dt * 1000)
         );
-        updatedAccumulator.maxTemperature = Math.max(
-          accumulator.maxTemperature,
-          Math.round(currentValue.main.temp)
+        result.description = twelveNoonForecast.weather[0].description;
+        result.icon = twelveNoonForecast.weather[0].icon;
+        // 2) Work out rounded min and max temperatures by reducing over all forecasts for the day
+        const minMaxTemperatures = day.reduce(
+          (accumulator, currentValue) => {
+            let updatedAccumulator = accumulator;
+            updatedAccumulator.minTemperature = Math.min(
+              accumulator.minTemperature,
+              Math.round(currentValue.main.temp)
+            );
+            updatedAccumulator.maxTemperature = Math.max(
+              accumulator.maxTemperature,
+              Math.round(currentValue.main.temp)
+            );
+            return updatedAccumulator;
+          },
+          {
+            minTemperature: 1000,
+            maxTemperature: -273
+          }
         );
-        return updatedAccumulator;
-      },
-      {
-        minTemperature: 1000,
-        maxTemperature: -273
-      }
-    );
-    result.minTemperature = minMaxTemperatures.minTemperature;
-    result.maxTemperature = minMaxTemperatures.maxTemperature;
-    return result;
-  });
+        result.minTemperature = minMaxTemperatures.minTemperature;
+        result.maxTemperature = minMaxTemperatures.maxTemperature;
+        return result;
+      })
+      // Get rid of any null elements (i.e. if we don't have 12 noon forecast for them)
+      .filter(day => day !== null)
+  );
 }

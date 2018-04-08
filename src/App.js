@@ -3,6 +3,7 @@ import './App.css';
 import './Reset.css';
 import TodayWeather from './TodayWeather';
 import SubsequentDayWeather from './SubsequentDayWeather';
+import { convertForecastData } from './Utils';
 require('dotenv').config();
 
 class App extends Component {
@@ -26,21 +27,27 @@ class App extends Component {
     ]).then(combinedResponses =>
       this.setState({
         todayWeather: combinedResponses[0],
-        subsequentDaysWeather: combinedResponses[1]
+        subsequentDaysWeather: convertForecastData(combinedResponses[1])
       })
     );
   }
   getSubsequentDays() {
-    // TODO: add logic to get day reference in this helper
-    return (
-      <div className="subsequent-days-bar">
-        <SubsequentDayWeather />
-        <SubsequentDayWeather />
-        <SubsequentDayWeather />
-        <SubsequentDayWeather />
-        <SubsequentDayWeather />
-      </div>
-    );
+    if (this.state.subsequentDaysWeather !== undefined) {
+      return (
+        <div className="subsequent-days-bar">
+          {this.state.subsequentDaysWeather.map(day => (
+            <SubsequentDayWeather
+              key={day.dateString}
+              minTemperature={day.minTemperature}
+              maxTemperature={day.maxTemperature}
+              description={day.description}
+              icon={day.icon}
+            />
+          ))}
+        </div>
+      );
+    }
+    return <div />;
   }
   render() {
     const { todayWeather, subsequentDaysWeather } = this.state;
