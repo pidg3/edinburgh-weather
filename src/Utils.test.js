@@ -1,105 +1,23 @@
 import timekeeper from 'timekeeper';
-import { convertForecastData } from './Utils';
+import {
+  numberOfDaysBetweenDates,
+  separateForecastIntoDays,
+  convertForecastData
+} from './Utils';
+import { mockForecastJson } from './mockForecastJson';
 
-it('converts weather json to correct format', () => {
-  // Set date to Sun Apr 08 2018 11:16:33 GMT+0100 (BST)
-  const manuallySetTime = new Date(1523182593555);
-  timekeeper.freeze(manuallySetTime);
-  // This is a cut down version that just contains data for 8th, 9th, 10th April
-  const mockResponse = {
-    cod: '200',
-    message: 0.0035,
-    cnt: 40,
-    list: [
-      {
-        dt: 1523188800,
-        main: {
-          temp: 11.16,
-          temp_min: 9.68,
-          temp_max: 11.16,
-          pressure: 996.09,
-          sea_level: 1021.46,
-          grnd_level: 996.09,
-          humidity: 96,
-          temp_kf: 1.48
-        },
-        weather: [
-          { id: 500, main: 'Rain', description: 'light rain', icon: '10d' }
-        ],
-        clouds: { all: 76 },
-        wind: { speed: 2.21, deg: 248.009 },
-        rain: { '3h': 0.0025 },
-        sys: { pod: 'd' },
-        dt_txt: '2018-04-08 12:00:00'
-      },
-      {
-        dt: 1523199600,
-        main: {
-          temp: 11.63,
-          temp_min: 10.52,
-          temp_max: 11.63,
-          pressure: 996.25,
-          sea_level: 1021.52,
-          grnd_level: 996.25,
-          humidity: 85,
-          temp_kf: 1.11
-        },
-        weather: [
-          {
-            id: 804,
-            main: 'Clouds',
-            description: 'overcast clouds',
-            icon: '04d'
-          }
-        ],
-        clouds: { all: 88 },
-        wind: { speed: 2.08, deg: 260.5 },
-        rain: {},
-        sys: { pod: 'd' },
-        dt_txt: '2018-04-08 15:00:00'
-      },
-      {
-        dt: 1523210400,
-        main: {
-          temp: 9.8,
-          temp_min: 9.06,
-          temp_max: 9.8,
-          pressure: 997.1,
-          sea_level: 1022.32,
-          grnd_level: 997.1,
-          humidity: 87,
-          temp_kf: 0.74
-        },
-        weather: [
-          { id: 500, main: 'Rain', description: 'light rain', icon: '10d' }
-        ],
-        clouds: { all: 80 },
-        wind: { speed: 1.88, deg: 270.002 },
-        rain: { '3h': 0.9425 },
-        sys: { pod: 'd' },
-        dt_txt: '2018-04-08 18:00:00'
-      },
-      {
-        dt: 1523221200,
-        main: {
-          temp: 7.51,
-          temp_min: 7.14,
-          temp_max: 7.51,
-          pressure: 998.14,
-          sea_level: 1023.61,
-          grnd_level: 998.14,
-          humidity: 97,
-          temp_kf: 0.37
-        },
-        weather: [
-          { id: 500, main: 'Rain', description: 'light rain', icon: '10n' }
-        ],
-        clouds: { all: 36 },
-        wind: { speed: 1.75, deg: 234.503 },
-        rain: { '3h': 0.8225 },
-        sys: { pod: 'n' },
-        dt_txt: '2018-04-08 21:00:00'
-      },
+it('calculates number of days between two dates', () => {
+  const date1 = new Date('Sun Apr 8 2018 11:16:33 GMT+0100 (BST)');
+  const date2 = new Date('Tues Apr 10 2018 09:16:33 GMT+0100 (BST)');
+  const date3 = new Date('Tues May 1 2018 21:16:33 GMT+0100 (BST)');
+  expect(numberOfDaysBetweenDates(date2, date1)).toBe(2);
+  expect(numberOfDaysBetweenDates(date3, date1)).toBe(23);
+  expect(numberOfDaysBetweenDates(date3, date2)).toBe(21);
+});
+
+it('splits forecast json by day', () => {
+  expect(separateForecastIntoDays(mockForecastJson)).toEqual([
+    [
       {
         dt: 1523232000,
         main: {
@@ -272,7 +190,9 @@ it('converts weather json to correct format', () => {
         rain: { '3h': 0.01 },
         sys: { pod: 'n' },
         dt_txt: '2018-04-09 21:00:00'
-      },
+      }
+    ],
+    [
       {
         dt: 1523318400,
         main: {
@@ -441,16 +361,15 @@ it('converts weather json to correct format', () => {
         sys: { pod: 'n' },
         dt_txt: '2018-04-10 21:00:00'
       }
-    ],
-    city: {
-      id: 2650225,
-      name: 'Edinburgh',
-      coord: { lat: 55.9521, lon: -3.1965 },
-      country: 'GB',
-      population: 435791
-    }
-  };
-  expect(convertForecastData()).toEqual([
+    ]
+  ]);
+});
+
+it('converts forecast json to correct format', () => {
+  // Set date to Sun Apr 08 2018 11:16:33 GMT+0100 (BST)
+  const manuallySetTime = new Date(1523182593555);
+  timekeeper.freeze(manuallySetTime);
+  expect(convertForecastData(mockForecastJson)).toEqual([
     {
       dateString: 'Monday 9 April',
       minTemperature: 2,
