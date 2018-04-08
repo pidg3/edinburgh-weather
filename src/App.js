@@ -17,12 +17,14 @@ class App extends Component {
   componentDidMount() {
     Promise.all([
       fetch(
-        'http://api.openweathermap.org/data/2.5/weather?q=Edinburgh,UK&mode=json&units=metric&APPID=' +
+        `http://api.openweathermap.org/data/2.5/weather?q=Edinburgh,UK&mode=json&units=metric&APPID=${
           process.env.REACT_APP_WEATHER_APP_ID
+        }`
       ).then(response => response.json()),
       fetch(
-        'http://api.openweathermap.org/data/2.5/forecast?q=Edinburgh,UK&units=metric&mode=json&APPID=' +
+        `http://api.openweathermap.org/data/2.5/forecast?q=Edinburgh,UK&units=metric&mode=json&APPID=${
           process.env.REACT_APP_WEATHER_APP_ID
+        }`
       ).then(response => response.json())
     ]).then(combinedResponses =>
       this.setState({

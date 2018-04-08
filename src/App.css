@@ -58,12 +58,13 @@ h1 {
   text-align: center;
 }
 h2 {
-  font-family: 'Droid Serif', serif;
-  font-weight: 400;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
   font-style: italic;
   font-size: 20px;
   line-height: 23px;
   margin: 0 0 23px 0;
+  color: #5c5c4e;
   text-align: center;
 }
 p {

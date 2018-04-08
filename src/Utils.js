@@ -38,7 +38,7 @@ function prettifyDate(date) {
 }
 
 /*
-  Calculates number of calendar days betwen two dates
+  Calculates number of calendar days between two dates
   Only counts full days ahead
 */
 export function numberOfDaysBetweenDates(date1, date2) {
