@@ -1,12 +1,33 @@
-.subsequent-days-bar {
+.today-weather-container {
+  min-width: 80vw;
+  min-height: 300px;
+  margin: 10vh 10vw;
+  border: 1px solid red;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.today-weather-container {
-  border: 1px solid red;
+/* For large screens */
+@media (min-width: 992px) {
+  .subsequent-days-bar {
+    margin: 20px 10vw;
+    display: flex;
+  }
+}
+
+/* For small screens */
+@media (max-width: 991px) {
+  .subsequent-days-bar {
+    margin: 20px 10vw;
+  }
 }
 
 .subsequent-day-weather-container {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid blue;
+  min-height: 200px;
 }

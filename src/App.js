@@ -5,17 +5,23 @@ import TodayWeather from './TodayWeather';
 import SubsequentDayWeather from './SubsequentDayWeather';
 
 class App extends Component {
+  getSubsequentDays() {
+    // TODO: add logic to get day reference in this helper
+    return (
+      <div className="subsequent-days-bar">
+        <SubsequentDayWeather />
+        <SubsequentDayWeather />
+        <SubsequentDayWeather />
+        <SubsequentDayWeather />
+        <SubsequentDayWeather />
+      </div>
+    );
+  }
   render() {
     return (
       <div className="App">
         <TodayWeather />
-        <div className="subsequent-days-bar">
-          <SubsequentDayWeather />
-          <SubsequentDayWeather />
-          <SubsequentDayWeather />
-          <SubsequentDayWeather />
-          <SubsequentDayWeather />
-        </div>
+        {this.getSubsequentDays()}
       </div>
     );
   }
