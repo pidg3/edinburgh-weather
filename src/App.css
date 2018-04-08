@@ -1,4 +1,14 @@
+body {
+  background-image: url('https://source.unsplash.com/1600x1200/?Edinburgh');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
 .today-weather-container {
+  border-radius: 5px;
+  background-color: white;
+  opacity: 0.85;
   min-width: 80vw;
   min-height: 300px;
   margin: 10vh 10vw;
@@ -7,6 +17,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.subsequent-days-bar {
+  border-radius: 5px;
+  background-color: white;
+  opacity: 0.85;
 }
 
 /* For large screens */
@@ -32,9 +48,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid lightgray;
+  border-right: 1px solid lightgray;
   min-height: 200px;
   padding: 10px;
+}
+
+.subsequent-day-weather-container:last-child {
+  border: 0;
 }
 
 /* For very small screens */
@@ -46,6 +66,11 @@
 
 .add-text-margin {
   margin: 10px;
+}
+
+.background-image {
+  display: absolute;
+  position: 0 0;
 }
 
 h1 {
